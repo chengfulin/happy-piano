@@ -1,5 +1,5 @@
 -- happy-piano
-system.activate( "multitouch" )
+-- system.activate( "multitouch" )
 -- hide status bar
 display.setStatusBar( display.HiddenStatusBar )
 -- dir paths
@@ -45,12 +45,13 @@ for count = 1, numOfKeys, 1 do
         height = 325,
         defaultFile = imageDir .. "/" .. count .. ".png",
         overFile = imageDir .. "/" .. count .. "P.png",
-        onPress = keyboardTable[count]["onPressed"],
+        -- onPress = keyboardTable[count]["onPressed"],
         -- label
         labelColor = { default = { 60/255, 60/255, 60/255, 0 }, over = { 1, 1, 1, 1 } },
         font = native.systemFontBold,
         fontSize = 30
     }
+    
     local key = widget.newButton( keyOpt )
     -- set offset
     if count == 1 then
@@ -60,6 +61,7 @@ for count = 1, numOfKeys, 1 do
     end
     key.y = firstY
     key:setLabel( keyNames[ count%7 ] )
+    key:addEventListener( "tap", keyboardTable[count]["onPressed"] )
     keyboardTable[count]["key"] = key
     keyboard:insert( key )
 end
@@ -97,3 +99,48 @@ for count = 1, numOfBlackKeys, 1 do
     blackKeyTable[count]["key"] = blackKey
     keyboard:insert(blackKey)
 end
+
+-- method to trigger keyboard (non-black)
+local tapTrigger = function (index)
+    if index <= 13 and index > 0 then
+        keyboard[index]:dispatchEvent( { name = "tap", target = keyboard[index] } )
+    end
+end
+-- table of handlers to trigger a keyboard
+local taps = {}
+taps[1] = function ()
+    tapTrigger(1)
+end
+taps[2] = function()
+    tapTrigger(2)
+end
+taps[3] = function()
+    tapTrigger(3)
+end
+taps[4] = function()
+    tapTrigger(4)
+end
+taps[5] = function()
+    tapTrigger(5)
+end
+taps[6] = function()
+    tapTrigger(6)
+end
+taps[7] = function()
+    tapTrigger(7)
+end
+taps[8] = function()
+    tapTrigger(8)
+end
+
+-- automatically tap keyboard with collection of keys and time period
+local autoTapKeyboard = function (inTable, period)
+    local periodTime = period
+    local count = 1
+    for key,val in pairs(inTable) do
+        timer.performWithDelay(periodTime * count, taps[val])
+        count = count + 1
+    end
+end
+
+-- autoTapKeyboard( { 1,1,5,5,6,6,5,0,4,4,3,3,2,2,1,0,5,5,4,4,3,3,2,0,5,5,4,4,3,3,2,0,1,1,5,5,6,6,5,0,4,4,3,3,2,2,1 }, 100 )
