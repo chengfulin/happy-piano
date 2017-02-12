@@ -9,3 +9,6 @@ A simple piano app use [Lua](https://www.lua.org/ "Lua.org") language and powere
 ver 1.0
 * support multitouch
 * show labels (Do, Re, Mi ... ) on keyboard when pressed
+
+## Apps
+[android](https://github.com/chengfulin/happy-piano/_build/HappyPiano.apk "HappyPiano.apk")
