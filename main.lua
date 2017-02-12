@@ -1,5 +1,5 @@
 -- happy-piano
-
+system.activate( "multitouch" )
 -- hide status bar
 display.setStatusBar( display.HiddenStatusBar )
 -- dir paths
@@ -55,12 +55,45 @@ for count = 1, numOfKeys, 1 do
     -- set offset
     if count == 1 then
         key.x = firstX
-        key.y = firstY
     else
         key.x = keyboardTable[count - 1]["key"].x + paddingX
-        key.y = firstY
     end
+    key.y = firstY
     key:setLabel( keyNames[ count%7 ] )
     keyboardTable[count]["key"] = key
     keyboard:insert( key )
+end
+
+local firstBlackX = 165
+local firstBlackY = 316
+local numOfBlackKeys = 5
+local blackKeyTable = {}
+for count = 1, numOfBlackKeys, 1 do
+    blackKeyTable[count] = {}
+    -- handle on press
+    local sound = audio.loadSound(audioDir .. "/" .. count + numOfKeys .. ".mp3")
+    blackKeyTable[count]["onPressed"] = function (event)
+        audio.play(sound)
+    end
+    -- options for black key
+    local keyOpt = {
+        width = 65,
+        height = 164,
+        defaultFile = imageDir .. "/BlackKey.png",
+        overFile = imageDir .. "/BlackKeyPressed.png",
+        onPress = blackKeyTable[count]["onPressed"]
+    }
+    local blackKey = widget.newButton( keyOpt )
+    if count == 1 then
+        blackKey.x = firstBlackX
+    else
+        if count == 3 then
+            blackKey.x = blackKeyTable[count - 1]["key"].x + paddingX + paddingX
+        else
+            blackKey.x = blackKeyTable[count - 1]["key"].x + paddingX
+        end
+    end
+    blackKey.y = firstBlackY
+    blackKeyTable[count]["key"] = blackKey
+    keyboard:insert(blackKey)
 end
