@@ -136,11 +136,20 @@ end
 -- automatically tap keyboard with collection of keys and time period
 local autoTapKeyboard = function (inTable, period)
     local periodTime = period
-    local count = 1
     for key,val in pairs(inTable) do
-        timer.performWithDelay(periodTime * count, taps[val])
-        count = count + 1
+        timer.performWithDelay(periodTime, taps[val])
+        periodTime = periodTime + period
     end
 end
 
--- autoTapKeyboard( { 1,1,5,5,6,6,5,0,4,4,3,3,2,2,1,0,5,5,4,4,3,3,2,0,5,5,4,4,3,3,2,0,1,1,5,5,6,6,5,0,4,4,3,3,2,2,1 }, 100 )
+-- on press song button, play "twinkle, twinkle, little star"
+local onPressSongBtn = function ()
+    autoTapKeyboard( { 1,1,5,5,6,6,5,0,4,4,3,3,2,2,1,0,5,5,4,4,3,3,2,0,5,5,4,4,3,3,2,0,1,1,5,5,6,6,5,0,4,4,3,3,2,2,1 }, 500 )
+end
+widget.newButton{
+    x = 633,
+    y = 154,
+    width = 118,
+    hwight = 110,
+    onPress = onPressSongBtn
+}
