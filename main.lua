@@ -22,11 +22,11 @@ local paddingX = 106
 local keyNames = {
     [1] = "Do",
     [2] = "Re",
-    [3] = "Me",
+    [3] = "Mi",
     [4] = "Fa",
-    [5] = "So",
+    [5] = "Sol",
     [6] = "La",
-    [0] = "Te"
+    [0] = "Si"
 }
 
 -- temp collection of keyboard
