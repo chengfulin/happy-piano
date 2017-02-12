@@ -2,9 +2,11 @@
 
 -- hide status bar
 display.setStatusBar( display.HiddenStatusBar )
-
+-- dir paths
+local imageDir = "images"
+local audioDir = "audio"
 -- setup background image
-local backgroundImg = display.newImageRect( "Background.png", 960, 640 )
+local backgroundImg = display.newImageRect( imageDir .. "/Background.png", 960, 640 )
 backgroundImg.x = 480
 backgroundImg.y = 320
 
@@ -12,16 +14,17 @@ backgroundImg.y = 320
 local widget = require( "widget" )
 local keyboard = display.newGroup()
 local numOfKeys = 8
--- offset of the 1st key
+-- offsets
 local firstX = 108
 local firstY = 398
+local paddingX = 106
 -- temp collection of keyboard
 local keyboardTable = {}
 -- recursively create keyboard
 for count = 1, numOfKeys, 1 do
     keyboardTable[count] = {}
     -- handle on key pressed
-    local sound = audio.loadSound(count .. ".mp3")
+    local sound = audio.loadSound(audioDir .. "/" .. count .. ".mp3")
     keyboardTable[count]["onPressed"] = function (event)
         print("key " .. count .. " pressed")
         audio.play(sound)
@@ -30,8 +33,8 @@ for count = 1, numOfKeys, 1 do
         -- image button
         width = 105,
         height = 325,
-        defaultFile = count .. ".png",
-        overFile = count .. "P.png",
+        defaultFile = imageDir .. "/" .. count .. ".png",
+        overFile = imageDir .. "/" .. count .. "P.png",
         onPress = keyboardTable[count]["onPressed"]
     }
     local key = widget.newButton( keyOpt )
@@ -40,7 +43,7 @@ for count = 1, numOfKeys, 1 do
         key.x = firstX
         key.y = firstY
     else
-        key.x = firstX + keyboardTable[count - 1]["key"].x
+        key.x = keyboardTable[count - 1]["key"].x + paddingX
         key.y = firstY
     end
     keyboardTable[count]["key"] = key
