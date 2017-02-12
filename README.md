@@ -11,4 +11,4 @@ ver 1.0
 * show labels (Do, Re, Mi ... ) on keyboard when pressed
 
 ## Apps
-[android](https://github.com/chengfulin/happy-piano/_build/HappyPiano.apk "HappyPiano.apk")
+[android](https://github.com/chengfulin/happy-piano/raw/master/_build/HappyPiano.apk "download HappyPiano.apk")
